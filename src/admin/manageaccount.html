@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png" />
+    <link rel="stylesheet" href="../assets/css/styles.min.css" />
+    <style>
+        .table-actions button {
+            margin-right: 5px;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <div id="sidebar-container"></div>
+        <script>
+            fetch('layout/sidebar.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('sidebar-container').innerHTML = html;
+                })
+                .catch(err => console.error('Failed to load sidebar:', err));
+        </script>
+        <!--  Sidebar End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <header class="app-header">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-block d-xl-none">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
+                                href="javascript:void(0)">
+                                <i class="ti ti-menu-2"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                                <i class="ti ti-bell-ringing"></i>
+                                <div class="notification bg-primary rounded-circle"></div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="../assets/images/profile/user-1.jpg" alt="" width="35" height="35"
+                                        class="rounded-circle">
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
+                                    aria-labelledby="drop2">
+                                    <div class="message-body">
+                                        <a href="javascript:void(0)"
+                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                            <i class="ti ti-user fs-6"></i>
+                                            <p class="mb-0 fs-3">My Profile</p>
+                                        </a>
+                                        <a href="javascript:void(0)"
+                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                            <i class="ti ti-mail fs-6"></i>
+                                            <p class="mb-0 fs-3">My Account</p>
+                                        </a>
+                                        <a href="javascript:void(0)"
+                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                            <i class="ti ti-list-check fs-6"></i>
+                                            <p class="mb-0 fs-3">My Task</p>
+                                        </a>
+                                        <a href="./authentication-login.html"
+                                            class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!--  Header End -->
+            <div class="container-fluid mt-4">
+                <!-- Tiêu đề trang -->
+                <h2 class="text-center mb-4">Quản Lý Tài Khoản</h2>
+
+                <!-- Phần Tìm kiếm & Lọc -->
+                <div class="row filter-section">
+                    <div class="col-md-4 mb-2">
+                        <input type="text" id="searchInput" class="form-control"
+                            placeholder="Tìm kiếm theo tên hoặc email">
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <select id="roleFilter" class="form-select">
+                            <option value="">Lọc theo vai trò</option>
+                            <option value="Admin">Admin</option>
+                            <option value="User">User</option>
+                            <!-- Thêm các vai trò khác nếu cần -->
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <select id="statusFilter" class="form-select">
+                            <option value="">Lọc theo trạng thái</option>
+                            <option value="active">Hoạt động</option>
+                            <option value="locked">Bị khóa</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-2 text-end">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+                            <iconify-icon icon="mdi:plus" width="20"></iconify-icon> Thêm Tài Khoản
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bảng Danh Sách Tài Khoản -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="accountTable" class="table table-bordered table-hover align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Mã người dùng</th>
+                                                <th>Tên đăng nhập</th>
+                                                <th>Email</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Vai trò</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Ví dụ dòng dữ liệu -->
+                                            <tr>
+                                                <td>001</td>
+                                                <td>nguyenvana</td>
+                                                <td>nguyenvana@example.com</td>
+                                                <td>0901234567</td>
+                                                <td>Admin</td>
+                                                <td><span class="badge bg-success">Hoạt động</span></td>
+                                                <td class="table-actions">
+                                                    <button class="btn btn-sm btn-warning edit-btn"
+                                                        data-bs-toggle="modal" data-bs-target="#editAccountModal">
+                                                        <iconify-icon icon="mdi:pencil" width="16"></iconify-icon> Sửa
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">
+                                                        <iconify-icon icon="mdi:delete" width="16"></iconify-icon> Xóa
+                                                    </button>
+                                                    <button class="btn btn-sm btn-secondary lock-btn">
+                                                        <iconify-icon icon="mdi:lock" width="16"></iconify-icon> Khóa
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>002</td>
+                                                <td>tranthib</td>
+                                                <td>tranthib@example.com</td>
+                                                <td>0912345678</td>
+                                                <td>User</td>
+                                                <td><span class="badge bg-success">Hoạt động</span></td>
+                                                <td class="table-actions">
+                                                    <button class="btn btn-sm btn-warning edit-btn"
+                                                        data-bs-toggle="modal" data-bs-target="#editAccountModal">
+                                                        <iconify-icon icon="mdi:pencil" width="16"></iconify-icon> Sửa
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">
+                                                        <iconify-icon icon="mdi:delete" width="16"></iconify-icon> Xóa
+                                                    </button>
+                                                    <button class="btn btn-sm btn-secondary lock-btn">
+                                                        <iconify-icon icon="mdi:lock" width="16"></iconify-icon> Khóa
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- Thêm các dòng dữ liệu khác nếu cần -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Thêm Tài Khoản -->
+            <div class="modal fade" id="addAccountModal" tabindex="-1" aria-labelledby="addAccountModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="addAccountForm">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addAccountModalLabel">Thêm Tài Khoản Mới</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Các trường bắt buộc -->
+                                <div class="mb-3">
+                                    <label for="addUsername" class="form-label">Tên đăng nhập <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="addUsername"
+                                        placeholder="Nhập tên đăng nhập" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addEmail" class="form-label">Email <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="addEmail" placeholder="Nhập email"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addPassword" class="form-label">Mật khẩu <span
+                                            class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" id="addPassword"
+                                        placeholder="Nhập mật khẩu" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addConfirmPassword" class="form-label">Xác nhận mật khẩu <span
+                                            class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" id="addConfirmPassword"
+                                        placeholder="Nhập lại mật khẩu" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addRole" class="form-label">Vai trò <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="addRole" required>
+                                        <option value="">Chọn vai trò</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="User">User</option>
+                                    </select>
+                                </div>
+                                <!-- Các trường tùy chọn -->
+                                <div class="mb-3">
+                                    <label for="addFullname" class="form-label">Họ tên đầy đủ</label>
+                                    <input type="text" class="form-control" id="addFullname"
+                                        placeholder="Nhập họ tên đầy đủ">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addPhone" class="form-label">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="addPhone"
+                                        placeholder="Nhập số điện thoại">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addAvatar" class="form-label">Avatar</label>
+                                    <input type="file" class="form-control" id="addAvatar">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addFaceImage" class="form-label">Ảnh khuôn mặt</label>
+                                    <input type="file" class="form-control" id="addFaceImage">
+                                </div>
+                                <div class="alert alert-info" role="alert">
+                                    Hệ thống sẽ gửi email kích hoạt tài khoản cho người dùng mới.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Thêm Tài Khoản</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Chỉnh Sửa Tài Khoản -->
+            <div class="modal fade" id="editAccountModal" tabindex="-1" aria-labelledby="editAccountModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="editAccountForm">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editAccountModalLabel">Chỉnh Sửa Tài Khoản</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Các trường chỉnh sửa (bắt buộc và tùy chọn) -->
+                                <div class="mb-3">
+                                    <label for="editUsername" class="form-label">Tên đăng nhập <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="editUsername"
+                                        placeholder="Nhập tên đăng nhập" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editEmail" class="form-label">Email <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="editEmail" placeholder="Nhập email"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editPhone" class="form-label">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="editPhone"
+                                        placeholder="Nhập số điện thoại">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editRole" class="form-label">Vai trò <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="editRole" required>
+                                        <option value="">Chọn vai trò</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="User">User</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editFaceImage" class="form-label">Ảnh khuôn mặt (nếu cần cập
+                                        nhật)</label>
+                                    <input type="file" class="form-control" id="editFaceImage">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script>
+                // Tìm kiếm và lọc bảng danh sách tài khoản
+                $(document).ready(function() {
+                    function filterTable() {
+                        var searchText = $("#searchInput").val().toLowerCase();
+                        var selectedRole = $("#roleFilter").val();
+                        var selectedStatus = $("#statusFilter").val();
+                        $("#accountTable tbody tr").each(function() {
+                            var rowText = $(this).text().toLowerCase();
+                            var rowRole = $(this).find("td:eq(4)").text().trim();
+                            var rowStatus = $(this).find("td:eq(5)").text().trim().toLowerCase();
+                            var matchSearch = rowText.indexOf(searchText) > -1;
+                            var matchRole = selectedRole === "" || rowRole === selectedRole;
+                            var matchStatus = selectedStatus === "" || rowStatus.indexOf(
+                                selectedStatus) > -1;
+                            if (matchSearch && matchRole && matchStatus) {
+                                $(this).show();
+                            } else {
+                                $(this).hide();
+                            }
+                        });
+                    }
+                    $("#searchInput").on("keyup", filterTable);
+                    $("#roleFilter, #statusFilter").on("change", filterTable);
+                });
+                // Xử lý form Thêm Tài Khoản
+                $('#addAccountForm').on('submit', function(e) {
+                    e.preventDefault();
+                    alert('Tài khoản mới đã được thêm!');
+                    this.reset();
+                    $('#addAccountModal').modal('hide');
+                    // Cập nhật lại danh sách tài khoản thông qua AJAX nếu cần
+                });
+                // Xử lý form Chỉnh Sửa Tài Khoản
+                $('#editAccountForm').on('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thông tin tài khoản đã được cập nhật!');
+                    this.reset();
+                    $('#editAccountModal').modal('hide');
+                    // Cập nhật lại danh sách tài khoản thông qua AJAX nếu cần
+                });
+                // Xử lý nút Xóa và Khóa
+                $('.delete-btn').on('click', function() {
+                    if (confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) {
+                        alert('Tài khoản đã bị xóa!');
+                        // Thực hiện xóa tài khoản qua AJAX nếu cần
+                    }
+                });
+                $('.lock-btn').on('click', function() {
+                    if (confirm('Bạn có chắc chắn muốn khóa tài khoản này?')) {
+                        alert('Tài khoản đã bị khóa!');
+                        // Thực hiện khóa tài khoản qua AJAX nếu cần
+                    }
+                });
+            </script>
+            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+            <script src="../assets/js/sidebarmenu.js"></script>
+            <script src="../assets/js/app.min.js"></script>
+            <script src="../assets/js/dashboard.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>
