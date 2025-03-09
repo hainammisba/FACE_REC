@@ -1,29 +1,48 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SeoDash Free Bootstrap Admin Template by Adminmart</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Chấm Công</title>
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
+
     <style>
-        .table-actions button {
-            margin-right: 5px;
-        }
+/* Căn chỉnh khoảng cách hợp lý */
+.body-wrapper {
+      padding-top: 20px; /* Chỉ cần khoảng cách nhỏ để tránh chạm vào header */
+    }
 
-        .filter-section {
-            margin-bottom: 20px;
-        }
+    /* Điều chỉnh bộ lọc dữ liệu */
+    .filter-card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    /* Đảm bảo nội dung không bị chắn ngang khi cuộn */
+    .content-section {
+      margin-top: 10px; /* Giúp biểu đồ không bị đẩy xuống quá xa */
+    }
+
+    /* Nút lọc dữ liệu căn giữa */
+    .filter-btn {
+      width: 100%;
+      max-width: 250px;
+      display: block;
+      margin: 15px auto 0;
+    }
     </style>
-
 </head>
 
 <body>
-    <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
-        <!-- Sidebar Start -->
+
+        <!-- Sidebar -->
         <div id="sidebar-container"></div>
         <script>
             fetch('layout/sidebar.html')
@@ -33,223 +52,142 @@
                 })
                 .catch(err => console.error('Failed to load sidebar:', err));
         </script>
-        <!--  Sidebar End -->
-        <!--  Main wrapper -->
+
         <div class="body-wrapper">
-            <!--  Header Start -->
-            <header class="app-header">
+            <header class="app-header sticky-header">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <ul class="navbar-nav">
                         <li class="nav-item d-block d-xl-none">
-                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
-                                href="javascript:void(0)">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
                                 <i class="ti ti-menu-2"></i>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-icon-hover" href="javascript:void(0)">
-                                <i class="ti ti-bell-ringing"></i>
-                                <div class="notification bg-primary rounded-circle"></div>
-                            </a>
-                        </li>
                     </ul>
-                    <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="../assets/images/profile/user-1.jpg" alt="" width="35" height="35"
-                                        class="rounded-circle">
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                                    aria-labelledby="drop2">
-                                    <div class="message-body">
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-user fs-6"></i>
-                                            <p class="mb-0 fs-3">My Profile</p>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-mail fs-6"></i>
-                                            <p class="mb-0 fs-3">My Account</p>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-list-check fs-6"></i>
-                                            <p class="mb-0 fs-3">My Task</p>
-                                        </a>
-                                        <a href="./authentication-login.html"
-                                            class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
                 </nav>
             </header>
-            <!--  Header End -->
-            <div class="container-fluid mt-4">
-                <!-- Báo cáo tổng quan -->
+
+            <div class="container-fluid content-wrapper">
+                <h3 class="mb-3">📊 Báo Cáo Chấm Công</h3>
+
+                <!-- Bộ Lọc Dữ Liệu -->
+                <div class="card p-4 mb-4">
+                    <h5>🔍 Bộ lọc dữ liệu</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="startDate">Từ ngày:</label>
+                            <input type="date" id="startDate" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="endDate">Đến ngày:</label>
+                            <input type="date" id="endDate" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="employeeSelect">Nhân viên:</label>
+                            <select id="employeeSelect" class="form-control">
+                                <option value="all">Tất cả</option>
+                                <option value="NV001">NV001</option>
+                                <option value="NV002">NV002</option>
+                                <option value="NV003">NV003</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-3" onclick="updateCharts()">🔄 Lọc dữ liệu</button>
+                </div>
+
                 <div class="row">
-                    <div class="col-md-4">
+                    <!-- Biểu đồ cột số ngày làm việc -->
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Tổng lượt ra vào</h5>
-                                <h2 class="card-text">1,234</h2>
-                                <p class="text-muted">Cập nhật: 15:30, 28/02/2025</p>
+                                <h5>📅 Số ngày làm việc theo nhân viên</h5>
+                                <div id="workDaysChart" class="chart-container"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+
+                    <!-- Biểu đồ tròn trạng thái chấm công -->
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Nhân viên</h5>
-                                <h2 class="card-text">1,000</h2>
-                                <p class="text-muted">Cập nhật: 15:30, 28/02/2025</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Người lạ</h5>
-                                <h2 class="card-text">234</h2>
-                                <p class="text-muted">Cập nhật: 15:30, 28/02/2025</p>
+                                <h5>📌 Tỷ lệ trạng thái chấm công</h5>
+                                <div id="attendancePieChart" class="chart-container"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Phần biểu đồ thống kê -->
+                <!-- Biểu đồ tổng giờ làm việc -->
                 <div class="row mt-4">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Biểu đồ ra vào theo thời gian</h5>
-                                <!-- Phần hiển thị biểu đồ ApexCharts -->
-                                <div id="entryChart" style="height: 300px;"></div>
+                                <h5>⏳ Tổng giờ làm việc theo ngày</h5>
+                                <div id="workingHoursChart" class="chart-container"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Phần bộ lọc dữ liệu -->
-                <div class="row mt-4 filter-section">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Bộ lọc dữ liệu</h5>
-                                <form id="filterForm" class="row g-3">
-                                    <div class="col-md-4">
-                                        <label for="fromDate" class="form-label">Từ ngày</label>
-                                        <input type="date" class="form-control" id="fromDate" name="fromDate">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="toDate" class="form-label">Đến ngày</label>
-                                        <input type="date" class="form-control" id="toDate" name="toDate">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="objectType" class="form-label">Loại đối tượng</label>
-                                        <select class="form-select" id="objectType" name="objectType">
-                                            <option value="all" selected>Tất cả</option>
-                                            <option value="employee">Nhân viên</option>
-                                            <option value="visitor">Người lạ</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary">Lọc dữ liệu</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Phần bảng dữ liệu chi tiết -->
+                <!-- Bảng chi tiết chấm công -->
                 <div class="row mt-4">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Danh sách chi tiết lượt ra vào</h5>
+                                <h5>📑 Chi tiết chấm công</h5>
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
+                                    <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>STT</th>
-                                                <th>Thời gian</th>
-                                                <th>Đối tượng</th>
-                                                <th>Ảnh</th>
-                                                <th>Hành động</th>
+                                                <th>Nhân viên</th>
+                                                <th>Ngày</th>
+                                                <th>Check-in</th>
+                                                <th>Check-out</th>
+                                                <th>Trạng thái</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>28/02/2025 15:30</td>
-                                                <td>Nhân viên</td>
-                                                <td><img src="../assets/images/sample-face.jpg" alt="Face" width="50">
-                                                </td>
-                                                <td class="table-actions">
-                                                    <button class="btn btn-info btn-sm">Xem</button>
-                                                    <button class="btn btn-warning btn-sm">Chỉnh sửa</button>
-                                                    <button class="btn btn-danger btn-sm">Xóa</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>28/02/2025 15:45</td>
-                                                <td>Người lạ</td>
-                                                <td><img src="../assets/images/sample-face.jpg" alt="Face" width="50">
-                                                </td>
-                                                <td class="table-actions">
-                                                    <button class="btn btn-info btn-sm">Xem</button>
-                                                    <button class="btn btn-warning btn-sm">Chỉnh sửa</button>
-                                                    <button class="btn btn-danger btn-sm">Xóa</button>
-                                                </td>
-                                            </tr>
-                                            <!-- Thêm các dòng dữ liệu khác tại đây -->
-                                        </tbody>
+                                        <tbody id="attendanceTable"></tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+        </div>
+    </div>
 
-            <!-- Khởi tạo biểu đồ với ApexCharts (ví dụ) -->
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    var options = {
-                        chart: {
-                            type: 'line',
-                            height: 300
-                        },
-                        series: [{
-                            name: 'Nhân viên',
-                            data: [10, 15, 12, 17, 14, 20, 22]
-                        }, {
-                            name: 'Người lạ',
-                            data: [2, 3, 5, 1, 4, 3, 6]
-                        }],
-                        xaxis: {
-                            categories: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00']
-                        }
-                    };
-                    var chart = new ApexCharts(document.querySelector("#entryChart"), options);
-                    chart.render();
-                });
-            </script>
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
 
-            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-            <script src="../assets/js/sidebarmenu.js"></script>
-            <script src="../assets/js/app.min.js"></script>
-            <script src="../assets/js/dashboard.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <script>
+        function updateCharts() {
+            let workDaysData = [22, 24, 20, 18, 25];
+            let attendanceStatusData = [50, 20, 10, 15, 5];
+            let workingHoursData = [8, 7.5, 9, 6, 8.5];
+
+            new ApexCharts(document.querySelector("#workDaysChart"), {
+                chart: { type: 'bar', height: 300 },
+                series: [{ name: "Số ngày", data: workDaysData }],
+                xaxis: { categories: ["NV001", "NV002", "NV003", "NV004", "NV005"] }
+            }).render();
+
+            new ApexCharts(document.querySelector("#attendancePieChart"), {
+                chart: { type: 'pie', height: 300 },
+                series: attendanceStatusData,
+                labels: ["OnTime", "Late", "EarlyLeave", "Absent", "Manual"]
+            }).render();
+
+            new ApexCharts(document.querySelector("#workingHoursChart"), {
+                chart: { type: 'line', height: 300 },
+                series: [{ name: "Giờ làm", data: workingHoursData }],
+                xaxis: { categories: ["NV001", "NV002", "NV003", "NV004", "NV005"] }
+            }).render();
+        }
+
+        document.addEventListener("DOMContentLoaded", updateCharts);
+    </script>
 </body>
 
 </html>
